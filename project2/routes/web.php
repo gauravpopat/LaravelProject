@@ -1,7 +1,8 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +14,26 @@ use App\Http\Controllers\IndexController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::fallback(function() {
+    return 'Page Not Found :)';
 });
 
-Route::get('/121', [IndexController::class, 'index'])->name('onetoone');
+Route::get('/o2o', [IndexController::class, 'onetoone'])->name('onetoone');
+
+Route::get('/o2m', [IndexController::class, 'onetomany'])->name('onetomany');
+
+Route::get('/o2mbt', [IndexController::class, 'onetomanybelongsto'])->name('onetomanybelongsto');
+
+Route::get('/latest', [IndexController::class, 'latestOrder'])->name('latestOrder');
+
+Route::get('/maxprice',[IndexController::class,'maxPrice'])->name('maxPrice');
+
+Route::get('/minprice',[IndexController::class,'minPrice'])->name('minPrice');
+
+Route::get('/creator', [IndexController::class, 'getCreator'])->name('getCreator');
+
+Route::get('/showsong/{id}', [IndexController::class, 'show_song'])->name('show_song');
+
+Route::get('/showsinger/{id}', [IndexController::class, 'show_singer'])->name('show_singer');
+
+Route::get('/creatormany', [IndexController::class, 'getCreatorHasManyThrow'])->name('getCreatorHasManyThrow');

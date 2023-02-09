@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Person;
 
-class Phone extends Model
+class Singer extends Model
 {
     use HasFactory;
-    public function getPerson(){
-        return $this->belongsTo(Person::class,'person_id','id');
+
+    public function songs()
+    {
+        return $this->belongsToMany(Song::class, 'song_singers');
     }
 }
