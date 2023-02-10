@@ -40,4 +40,9 @@ Route::get('/postcomment/{id}', [IndexController::class, 'postcomment'])->name('
 
 Route::get('/videocomment/{id}', [IndexController::class, 'videocomment'])->name('videocomment');
 
-Route::get('/Mutator', [MemberController::class, 'index'])->name('Mutator');
+Route::get('/mutator', [MemberController::class, 'index'])->name('Mutator');
+
+Route::get('/accessor',[MemberController::class,'accessor'])->name('accessor');
+
+Route::get('/index',[MemberController::class,'index'])->name('index');
+// Route::get('/casting',[MemberController::class,'casting'])->name('casting');

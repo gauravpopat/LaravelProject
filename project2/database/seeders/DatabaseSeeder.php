@@ -11,6 +11,7 @@ use Database\Seeders\OrderSeeder;
 use Database\Seeders\PersonSeeder;
 use Database\Seeders\PhoneSeeder;
 use Database\Seeders\CreatorSeeder;
+use App\Models\Member;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,14 +22,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        
 
         $this->call([
             // OrderSeeder::class,
             // CustomerSeeder::class,
             // PersonSeeder::class,
             // PhoneSeeder::class,
-            CreatorSeeder::class
-
+            // CreatorSeeder::class
+               MemberSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
 
