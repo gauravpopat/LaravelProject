@@ -17,6 +17,20 @@ use League\CommonMark\Extension\SmartPunct\EllipsesParser;
 
 class IndexController extends Controller
 {
+    public function index()
+    {
+        return view('myform');
+    }
+
+    public function register(Request $request){
+       $request->validate([
+            'name'=> 'required',
+            'email'=> 'email | required',
+            'phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
+            'password'=> 'required'
+       ]);
+        dd($request->all());
+    }
     public function postcomment($id){
         return Post::find($id)->comments;
     }

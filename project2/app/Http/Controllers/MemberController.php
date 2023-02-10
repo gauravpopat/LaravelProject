@@ -6,6 +6,18 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
+
+    public function goToView(){
+        // $age = $request->age;
+        // return $age;
+        return view('testform');
+    }
+
+    public function newpage()
+    {
+        return "new page";
+    }
+
     public function index()
     {
         return Member::all();

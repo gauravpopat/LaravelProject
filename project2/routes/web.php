@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\MemberController;
-
+use App\Models\Member;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,16 +15,20 @@ use App\Http\Controllers\MemberController;
 |
 */
 
+// Route::get('/mainpage',function(){
+//     return view('welcome');
+// })->name('mainpage');
 
-Route::get('/o2o', [IndexController::class, 'onetoone'])->name('onetoone');
 
-Route::get('/o2m', [IndexController::class, 'onetomany'])->name('onetomany');
+Route::get('/o2o', [IndexController::class, 'onetoone'])->name('onetoone')->middleware('guard');
+
+Route::get('/o2m', [IndexController::class, 'onetomany'])->name('onetomany')->middleware('guard');
 
 Route::get('/o2mbt', [IndexController::class, 'onetomanybelongsto'])->name('onetomanybelongsto');
 
 Route::get('/latest', [IndexController::class, 'latestOrder'])->name('latestOrder');
 
-Route::get('/maxprice',[IndexController::class,'maxPrice'])->name('maxPrice');
+Route::get('/maxprice',[IndexController::class,'maxPrice'])->name('maxPrice')->middleware('guard');
 
 Route::get('/minprice',[IndexController::class,'minPrice'])->name('minPrice');
 
@@ -44,5 +48,39 @@ Route::get('/mutator', [MemberController::class, 'index'])->name('Mutator');
 
 Route::get('/accessor',[MemberController::class,'accessor'])->name('accessor');
 
-Route::get('/index',[MemberController::class,'index'])->name('index');
+Route::get('/index',[MemberController::class,'index'])->name('index')->middleware('guard');
+
+Route::get('register',[IndexController::class,'index']);
+Route::post('register',[IndexController::class,'register']);
+
+
+
+
 // Route::get('/casting',[MemberController::class,'casting'])->name('casting');
+
+// Route::get('/no-access',function(){
+//     echo "Access Denied";
+//     die;
+// });
+
+// Route::get('/login',function(){
+//     session()->put('user_id',1);
+//     return redirect('/');
+// });
+
+// Route::get('/logout', function () {
+//     session()->put('user_id',null);
+//     return redirect('/');
+// });
+
+
+
+
+// // Route::get('/form',[MemberController::class,'goToView']);
+
+// Route::post('newpage',[MemberController::class,'newpage'])->middleware('guard');
+
+// Route::get('/',function(){
+//     return view('testform');
+// });
+
