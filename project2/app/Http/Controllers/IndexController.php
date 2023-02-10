@@ -8,9 +8,24 @@ use App\Models\Phone;
 use App\Models\Person;
 use App\Models\Singer;
 use App\Models\Song;
+use App\Models\Comment;
+use App\Models\Video;
+use App\Models\Post;
+
 use Illuminate\Http\Request;
+use League\CommonMark\Extension\SmartPunct\EllipsesParser;
+
 class IndexController extends Controller
 {
+    public function postcomment($id){
+        return Post::find($id)->comments;
+    }
+
+    public function videocomment($id){
+        return Video::find($id)->comments;
+    }
+
+
     public function onetoone(){
         $phone = Person::find(3)->phone11;
         return $phone;

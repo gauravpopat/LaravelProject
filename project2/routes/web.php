@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\MemberController;
 
 
 /*
@@ -14,9 +15,6 @@ use App\Http\Controllers\IndexController;
 |
 */
 
-Route::fallback(function() {
-    return 'Page Not Found :)';
-});
 
 Route::get('/o2o', [IndexController::class, 'onetoone'])->name('onetoone');
 
@@ -37,3 +35,9 @@ Route::get('/showsong/{id}', [IndexController::class, 'show_song'])->name('show_
 Route::get('/showsinger/{id}', [IndexController::class, 'show_singer'])->name('show_singer');
 
 Route::get('/creatormany', [IndexController::class, 'getCreatorHasManyThrow'])->name('getCreatorHasManyThrow');
+
+Route::get('/postcomment/{id}', [IndexController::class, 'postcomment'])->name('postcomment');
+
+Route::get('/videocomment/{id}', [IndexController::class, 'videocomment'])->name('videocomment');
+
+Route::get('/Mutator', [MemberController::class, 'index'])->name('Mutator');
