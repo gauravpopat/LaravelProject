@@ -18,13 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('login',[AuthController::class,'index'])->name('login')->middleware('guest');
+
 Route::post('login',[AuthController::class,'login'])->name('login');
+
+
 Route::get('register',[AuthController::class,'register_view'])->name('register')->middleware('guest');
 Route::post('register',[AuthController::class,'register'])->name('register');
-Route::get('login',[AuthController::class,'index'])->name('login')->middleware('guest');
-Route::get('home',[AuthController::class,'home'])->name('home')->middleware('noentry');
+Route::get('home',[AuthController::class,'home'])->name('home');
 Route::get('logout',[AuthController::class,'logout'])->name('logout');
-
-Route::get('sendMailForChangePassword',[AuthController::class,'sendMailForChangePassword'])->name('sendMailForChangePassword')->middleware('noentry');
-Route::get('change_password',[AuthController::class,'change_password'])->name('change_password')->middleware('noentry');
-Route::post('update_password',[AuthController::class,'update_password'])->name('update_password')->middleware('noentry');
+Route::get('verify_email/{email_verification_code}',[AuthController::class,'verify_email'])->name('verify_email');
