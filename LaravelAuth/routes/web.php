@@ -29,3 +29,8 @@ Route::post('register',[AuthController::class,'register'])->name('register');
 Route::get('home',[AuthController::class,'home'])->name('home');
 Route::get('logout',[AuthController::class,'logout'])->name('logout');
 Route::get('verify_email/{email_verification_code}',[AuthController::class,'verify_email'])->name('verify_email');
+
+
+
+//change password
+Route::get('resetPassword',[AuthController::class,'resetPassword'])->name('resetPassword');

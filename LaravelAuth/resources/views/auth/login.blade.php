@@ -35,9 +35,13 @@
                                     type="submit">Login</button>
                                 <div class="form-outline mb-4">
                                     <label class="form-label">
-                                        <a href="">Forgot Password ?</a>
+                                        <a href="{{ route('resetPassword') }}">Forgot Password ?</a>
                                     </label>
                                 </div>
+                                @if (Session::has('success'))
+                                            <p id="successmessage" style="text-align: center;color: green;">
+                                                {{ Session::get('success') }}</p>
+                                @endif
                             </form>
 
 

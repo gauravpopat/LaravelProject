@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Mail\EmailVerificationMail;
+use Illuminate\Console\View\Components\Alert;
 use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Support\Str;
 use League\CommonMark\Extension\SmartPunct\EllipsesParser;
@@ -115,6 +116,14 @@ class AuthController extends Controller
         Session::flush();
         Auth::logout();
         return redirect('login');
+    }
+
+
+
+    //change password
+    public function resetPassword()
+    {
+        return redirect()->route('login')->with('success','Email Has Been Sent for Reset Password, Check It!');
     }
 
 }
