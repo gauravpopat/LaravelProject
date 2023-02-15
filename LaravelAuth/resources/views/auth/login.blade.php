@@ -34,17 +34,17 @@
                                 </div>
                                 <button class="btn btn-primary btn-lg btn-block" id="submit" name="submit"
                                     type="submit">Login</button>
-                                <div class="form-outline mb-4">
+                                <div class="form-outline">
                                     <label class="form-label">
                                         <a href="{{ route('resetPassword') }}">Forgot Password ?</a>
                                     </label>
                                 </div>
                                 @if (Session::has('success'))
-                                            <p id="successmessage" style="text-align: center;color: green;">
+                                            <p id="successmessage" style="text-align: center;color: rgb(2, 107, 2);">
                                                 {{ Session::get('success') }}</p>
                                 @endif
                                 @if (Session::has('error'))
-                                    <p id="errormessage" class="mb-5" style="text-align: center;color: red;">
+                                    <p id="errormessage" style="text-align: center;color: red;">
                                         {{ Session::get('error') }}</p>
                                 @endif
                             </form>

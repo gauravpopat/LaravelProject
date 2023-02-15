@@ -3,6 +3,8 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMarkdownMail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,3 +39,12 @@ Route::get('resetPassword',[AuthController::class,'resetPassword'])->name('reset
 Route::post('resetpwd',[AuthController::class,'resetpwd'])->name('resetpwd');
 Route::get('reset_password/{reset_password_code}',[AuthController::class,'reset_password'])->name('reset_password');
 Route::post('changemypassword',[AuthController::class,'changemypassword'])->name('changemypassword');
+
+Route::get('goBack',[AuthController::class,'goBack'])->name('goBack');
+
+
+// Route::get('/', function () {
+//         dispatch(function (){
+//             Mail::to('queuegaurav@gmail.com')->send(new SendMarkdownMail());
+//         })->delay(now()->addSeconds(2));
+// });

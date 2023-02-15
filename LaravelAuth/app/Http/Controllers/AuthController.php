@@ -128,7 +128,7 @@ class AuthController extends Controller
             Mail::to($request->email)->send(new ResetPasswordMail($data));
             return redirect()->route('login')->with('success', 'Email has been sent check it!');
         } else {
-            return redirect()->route('login')->with('error', 'No Record Found');
+            return redirect()->route('resetPassword')->with('error', 'No Record Found')->withInput();
         }
     }
 
@@ -139,7 +139,7 @@ class AuthController extends Controller
         if ($user) {
             return view('reset_view', compact('user'));
         } else {
-            return redirect('login')->with('error', 'Some Error');
+            return redirect('login')->with('error', 'Invalid URL');
         }
     }
 
@@ -150,5 +150,10 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ]);
         return redirect()->route('login')->with('success', 'Password Changed Successfully');
+    }
+
+    public function goBack()
+    {
+        return redirect('login');
     }
 }
