@@ -33,38 +33,27 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'email | required',
+            'email' => 'required | email',
             'password' => 'required',
         ]);
         //get the email value from the table if it is null then it will return the user not found
         $user = User::where('email', $request->email)->pluck('email');
         $data = $user->toArray();
 
-
-
-
         if (empty($data)) {
             return redirect('login')->with('error', 'User Not Found');
         } else {
             $cred = $request->only('email', 'password');
-            if (Auth::attempt($cred)) {
-                return redirect('home');
+            $getverat = User::where('email', $request->email)->pluck('email_verified_at')->first();
+            if(empty($getverat)){
+                return redirect('login')->with('error', 'Email is not verified');
             }
-            return redirect('login')->with('error', 'wrong detail');
-            // $ev = User::where('email', $request->email)->pluck('email_verified_at');
-            // $eml = $ev->toArray();
-            // if(empty($eml)){
-            //     return redirect()->route('login')->with('error', 'Email not verified');
-            // }
-            // else{
-            //     $pw = User::where('email',$request->email)->pluck('password');
-            //     if(password_verify($request->password,$user->password)){
-            //         return redirect('home');
-            //     }
-            //     else{
-            //         return redirect('login')->with('error','Wrong Details');
-            //     }
-            // }
+            else{
+                if (Auth::attempt($cred)) {
+                    return redirect('home');
+                }
+                return redirect('login')->with('error', 'Password Incorrect')->withInput();
+            }
         }
     }
 
@@ -83,8 +72,8 @@ class AuthController extends Controller
             'email_verification_code' => Str::random(40)
         ]);
 
-        Mail::to('gauravp@zignuts.com')->send(new EmailVerificationMail($data));
-        return redirect('login')->with('success','Verfification Mail Sent, Please verify it!');
+        Mail::to($request->email)->send(new EmailVerificationMail($data));
+        return redirect('login')->with('success', 'Verfification Mail Sent, Please verify it!');
     }
 
     public function verify_email($verificaton_code)
@@ -97,19 +86,19 @@ class AuthController extends Controller
                 $user->update([
                     'email_verified_at' => \Carbon\Carbon::now()
                 ]);
-                return redirect()->route('register')->with('success', 'Email Verified Successfully');
+                return redirect()->route('login')->with('success', 'Email Verified Successfully');
             }
         } else {
-            return redirect()->route('register')->with('error', 'Incorrect URL');
+            return redirect()->route('register')->with('error', 'Some Error');
         }
     }
 
     public function home()
     {
-        if(Auth::check()){
+        if (Auth::check()) {
             return view('home');
         }
-        return redirect('login')->with('error','First fill up details and log in...');
+        return redirect('login')->with('error', 'First fill up details and log in...');
     }
 
 
@@ -117,7 +106,7 @@ class AuthController extends Controller
     {
         Session::flush();
         Auth::logout();
-        return redirect('login');
+        return redirect('login')->with('success', 'Log out successfully');
     }
 
 
@@ -131,42 +120,35 @@ class AuthController extends Controller
     public function resetpwd(Request $request)
     {
         $check = User::where('email', $request->email)->first();
-        if($check){
+        if ($check) {
             $check->update([
                 'reset_password_code' => Str::random(40)
             ]);
             $data = $check->get('reset_password_code')->first();
-            Mail::to('gauravp@zignuts.com')->send(new ResetPasswordMail($data));
-            return redirect()->route('login')->with('success','Email has been sent check it!');
-        }
-        else{
-            return redirect()->route('login')->with('error','No Record Found');
+            Mail::to($request->email)->send(new ResetPasswordMail($data));
+            return redirect()->route('login')->with('success', 'Email has been sent check it!');
+        } else {
+            return redirect()->route('login')->with('error', 'No Record Found');
         }
     }
 
     public function reset_password($reset_password_code)
     {
         $user = User::where('reset_password_code', $reset_password_code)->first();
-        
+
         if ($user) {
-            return view('reset_view',compact('user'));
+            return view('reset_view', compact('user'));
         } else {
-            return redirect('login')->with('error','Some Error');
+            return redirect('login')->with('error', 'Some Error');
         }
     }
 
     public function changemypassword(Request $request)
     {
-
-        $request->validate([
-            'password' => 'required|confirmed|min:6'
-        ]);
-
-        $user = User::where('email',$request->email)->first();
+        $user = User::where('email', $request->email)->first();
         $update = $user->update([
             'password' => Hash::make($request->password)
         ]);
-        return redirect()->route('login')->with('success','Password Changed Successfully');
+        return redirect()->route('login')->with('success', 'Password Changed Successfully');
     }
-
 }

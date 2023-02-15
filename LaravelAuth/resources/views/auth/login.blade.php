@@ -18,16 +18,20 @@
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="email">Email</label>
                                     <input type="email" id="email" name="email"
-                                        class="form-control form-control-lg" />
-
+                                        class="form-control form-control-lg" value="{{old('email')}}"/>
+                                    @error('email')
+                                        {{$message}}
+                                    @enderror
                                 </div>
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="password">Password</label>
                                     <input type="password" id="password" name="password"
                                         class="form-control form-control-lg" />
+                                        @error('password')
+                                        {{$message}}
+                                    @enderror
                                 </div>
-                                
                                 <button class="btn btn-primary btn-lg btn-block" id="submit" name="submit"
                                     type="submit">Login</button>
                                 <div class="form-outline mb-4">

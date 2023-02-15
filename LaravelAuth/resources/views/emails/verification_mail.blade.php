@@ -1,5 +1,5 @@
 @component('mail::message')
-# Introduction
+# Verify Email
 
 
 @component('mail::button',['url'=> route('verify_email',$user->email_verification_code)])
