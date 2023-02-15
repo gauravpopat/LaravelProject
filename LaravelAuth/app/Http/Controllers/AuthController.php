@@ -45,10 +45,9 @@ class AuthController extends Controller
         } else {
             $cred = $request->only('email', 'password');
             $getverat = User::where('email', $request->email)->pluck('email_verified_at')->first();
-            if(empty($getverat)){
+            if (empty($getverat)) {
                 return redirect('login')->with('error', 'Email is not verified');
-            }
-            else{
+            } else {
                 if (Auth::attempt($cred)) {
                     return redirect('home');
                 }
@@ -78,10 +77,11 @@ class AuthController extends Controller
 
     public function verify_email($verificaton_code)
     {
+
         $user = User::where('email_verification_code', $verificaton_code)->first();
         if ($user) {
             if ($user->email_verified_at) {
-                return redirect()->route('login')->with('error', $user->email.' Already Verified.');
+                return redirect()->route('login')->with('error', $user->email . ' Already Verified.');
             } else {
                 $user->update([
                     'email_verified_at' => \Carbon\Carbon::now()
@@ -135,7 +135,6 @@ class AuthController extends Controller
     public function reset_password($reset_password_code)
     {
         $user = User::where('reset_password_code', $reset_password_code)->first();
-
         if ($user) {
             return view('reset_view', compact('user'));
         } else {
