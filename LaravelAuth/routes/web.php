@@ -32,5 +32,8 @@ Route::get('verify_email/{email_verification_code}',[AuthController::class,'veri
 
 
 
-//change password
+//Reset Password
 Route::get('resetPassword',[AuthController::class,'resetPassword'])->name('resetPassword');
+Route::post('resetpwd',[AuthController::class,'resetpwd'])->name('resetpwd');
+Route::get('reset_password/{reset_password_code}',[AuthController::class,'reset_password'])->name('reset_password');
+Route::post('changemypassword',[AuthController::class,'changemypassword'])->name('changemypassword');

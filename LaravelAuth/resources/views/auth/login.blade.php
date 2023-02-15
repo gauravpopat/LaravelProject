@@ -27,10 +27,7 @@
                                     <input type="password" id="password" name="password"
                                         class="form-control form-control-lg" />
                                 </div>
-                                @if (Session::has('error'))
-                                    <p id="errormessage" class="mb-5" style="text-align: center;color: red;">
-                                        {{ Session::get('error') }}</p>
-                                @endif
+                                
                                 <button class="btn btn-primary btn-lg btn-block" id="submit" name="submit"
                                     type="submit">Login</button>
                                 <div class="form-outline mb-4">
@@ -41,6 +38,10 @@
                                 @if (Session::has('success'))
                                             <p id="successmessage" style="text-align: center;color: green;">
                                                 {{ Session::get('success') }}</p>
+                                @endif
+                                @if (Session::has('error'))
+                                    <p id="errormessage" class="mb-5" style="text-align: center;color: red;">
+                                        {{ Session::get('error') }}</p>
                                 @endif
                             </form>
 

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use App\Mail\EmailVerificationMail;
+use App\Mail\ResetPasswordMail;
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Database\DBAL\TimestampType;
 use Illuminate\Support\Str;
@@ -82,7 +84,7 @@ class AuthController extends Controller
         ]);
 
         Mail::to('gauravp@zignuts.com')->send(new EmailVerificationMail($data));
-        return redirect('login');
+        return redirect('login')->with('success','Verfification Mail Sent, Please verify it!');
     }
 
     public function verify_email($verificaton_code)
@@ -123,7 +125,48 @@ class AuthController extends Controller
     //change password
     public function resetPassword()
     {
-        return redirect()->route('login')->with('success','Email Has Been Sent for Reset Password, Check It!');
+        return view('auth.passwords.reset_password');
+    }
+
+    public function resetpwd(Request $request)
+    {
+        $check = User::where('email', $request->email)->first();
+        if($check){
+            $check->update([
+                'reset_password_code' => Str::random(40)
+            ]);
+            $data = $check->get('reset_password_code')->first();
+            Mail::to('gauravp@zignuts.com')->send(new ResetPasswordMail($data));
+            return redirect()->route('login')->with('success','Email has been sent check it!');
+        }
+        else{
+            return redirect()->route('login')->with('error','No Record Found');
+        }
+    }
+
+    public function reset_password($reset_password_code)
+    {
+        $user = User::where('reset_password_code', $reset_password_code)->first();
+        
+        if ($user) {
+            return view('reset_view',compact('user'));
+        } else {
+            return redirect('login')->with('error','Some Error');
+        }
+    }
+
+    public function changemypassword(Request $request)
+    {
+
+        $request->validate([
+            'password' => 'required|confirmed|min:6'
+        ]);
+
+        $user = User::where('email',$request->email)->first();
+        $update = $user->update([
+            'password' => Hash::make($request->password)
+        ]);
+        return redirect()->route('login')->with('success','Password Changed Successfully');
     }
 
 }

@@ -56,17 +56,7 @@
     <div class="c">
     </div>
     <a href="{{ route('logout') }}" class="button3">Logout</a>
-    <a href="{{ route('sendMailForChangePassword') }}" class="button3" id="changepassword">Change
-        Password</a>
 </body>
-
-<script>
-    $(document).ready(function() {
-        $("#changepassword").click(function() {
-            alert("Mail Sent.");
-        });
-    });
-</script>
 
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

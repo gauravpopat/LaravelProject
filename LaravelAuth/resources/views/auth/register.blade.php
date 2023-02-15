@@ -6,6 +6,7 @@
     </div>
     <section class="vh-100" style="background-color: #508bfc;">
 
+
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col-12 col-md-8 col-lg-6 col-xl-5">
@@ -17,7 +18,8 @@
                                 @csrf
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="name">Enter Name</label>
-                                    <input type="text" id="name" name="name" class="form-control form-control-lg" value="{{old('name')}}"/>
+                                    <input type="text" id="name" name="name" class="form-control form-control-lg"
+                                        value="{{ old('name') }}" />
                                     @error('name')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
@@ -25,8 +27,8 @@
 
                                 <div class="form-outline mb-4">
                                     <label class="form-label" for="email">Email</label>
-                                    <input type="email" id="email" name="email"
-                                        class="form-control form-control-lg" value="{{old('email')}}"/>
+                                    <input type="email" id="email" name="email" class="form-control form-control-lg"
+                                        value="{{ old('email') }}" />
                                     @error('name')
                                         <div class="alert alert-danger">{{ $email }}</div>
                                     @enderror
@@ -52,6 +54,14 @@
                                 </div>
 
                                 <button class="btn btn-primary btn-lg btn-block" type="submit">Register</button>
+                                @if (Session::has('success'))
+                                    <p id="successmessage" style="text-align: center;color: green;">
+                                        {{ Session::get('success') }}</p>
+                                @endif
+                                @if (Session::has('error'))
+                                    <p id="errormessage" class="mb-5" style="text-align: center;color: red;">
+                                        {{ Session::get('error') }}</p>
+                                @endif
                             </form>
                         </div>
                     </div>
