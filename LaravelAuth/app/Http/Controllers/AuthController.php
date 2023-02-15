@@ -41,7 +41,7 @@ class AuthController extends Controller
         $data = $user->toArray();
 
         if (empty($data)) {
-            return redirect('login')->with('error', 'User Not Found');
+            return redirect('login')->with('error', 'User Not Found')->withInput();
         } else {
             $cred = $request->only('email', 'password');
             $getverat = User::where('email', $request->email)->pluck('email_verified_at')->first();
@@ -81,7 +81,7 @@ class AuthController extends Controller
         $user = User::where('email_verification_code', $verificaton_code)->first();
         if ($user) {
             if ($user->email_verified_at) {
-                return redirect()->route('register')->with('error', 'Already Verified');
+                return redirect()->route('login')->with('error', $user->email.' Already Verified.');
             } else {
                 $user->update([
                     'email_verified_at' => \Carbon\Carbon::now()
