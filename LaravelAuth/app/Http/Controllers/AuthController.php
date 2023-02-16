@@ -124,7 +124,7 @@ class AuthController extends Controller
             $check->update([
                 'reset_password_code' => Str::random(40)
             ]);
-            $data = $check->get('reset_password_code')->first();
+            $data = $check->where('email',$request->email)->get('reset_password_code')->first();
             Mail::to($request->email)->send(new ResetPasswordMail($data));
             return redirect()->route('login')->with('success', 'Email has been sent check it!');
         } else {
