@@ -4,6 +4,7 @@ use App\Http\Controllers\FileStorageController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\App;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,23 +16,27 @@ use Illuminate\Support\Facades\Storage;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/home',[HomeController::class,'index'])->name('home');
-Route::get('/upload',function(){
-    return view('uploadfile');
-});
-Route::post('/upload',[HomeController::class,'upload'])->name('upload');
-Route::post('/filestorage',[FileStorageController::class,'filestorage'])->name('filestorage');
+// Route::fallback(function(){
+//     return "Page not found";
+// });
 
-Route::get('/helper',function(){
-    echo message("...");
-});
+// Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Route::get('/upload', function () {
+//     return view('uploadfile');
+// });
+// Route::post('/upload', [HomeController::class, 'upload'])->name('upload');
+// Route::post('/filestorage', [FileStorageController::class, 'filestorage'])->name('filestorage');
+
+// Route::get('/helper', function () {
+//     echo message("...");
+// });
 
 
-Route::get('/fs',function(){
+// Route::get('/fs', function () {
     // $storage = Storage::disk('local')->put('gaurav.txt', 'Contents');
     // return dd($storage);
     // echo asset('storage/gaurav.txt');
@@ -44,8 +49,35 @@ Route::get('/fs',function(){
     // $mime = Storage::mimeType('gaurav.php');
     // return $mime; 
     // $path = Storage::path('gaurav.php'); //...storage/app.....
-    // return $path;
+    // dd($path);
     // Storage::prepend('gaurav.php', 'Prepended Text'); //at the first
     // Storage::append('gaurav.php', 'appended Text'); //at the end
-});
+
+//     Storage::setVisibility('gaurav.php', 'private');
+//     $visibility = Storage::getVisibility('gaurav.php');
+//     return $visibility;
+// });
+
+
+// Route::get('/{lang?}', function ($lang = null) {
+//     App::setLocale($lang);
+//     return view('sayGM');
+// });
+
+Route::get('upload',function(){
+    return view('upload_image');
+})->name('upload');
+
+Route::post('upload',[HomeController::class,'upload_image'])->name('upload');
+
+Route::get('show',[HomeController::class,'show'])->name('show');
+
+Route::get('delete/{id}',[HomeController::class,'delete'])->name('delete');
+
+
+Route::get('download/{name}',[HomeController::class,'download'])->name('download');
+
+
+
+
 
