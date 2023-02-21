@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\traits\QueryTrait;
 
 class AuthController extends Controller
 {
+    use QueryTrait;
     public function createUser(Request $request)
     {
         $validateUser = Validator::make($request->all(), [
@@ -19,11 +21,8 @@ class AuthController extends Controller
             'password' => 'required|confirmed'
         ]);
         if ($validateUser->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation Error',
-                'data' => $validateUser->errors()
-            ], 401);
+
+            return $this->getErrorMessage($validateUser);
         }
         $user = User::create([
             'name' => $request->name,
@@ -46,16 +45,12 @@ class AuthController extends Controller
         ]);
 
         if (!auth()->attempt($data)) {
-            return response(['error_message' => 'Incorrect Details']);
+            return response(['error_message' => 'Incorrect Details'],422);
         }
         $id = auth()->user()->getAuthIdentifier();
-        $token = User::find($id)->createToken('API Sanctum Token')->plainTextToken;
+        $token = User::find($id)->createToken('API Sanctum LOGIN Token')->plainTextToken;
 
-        return response([
-            'message' => 'Login Successfully',
-            'user' => auth()->user(),
-            'token' => $token
-        ]);
+        return $this->LoginSuccess($token);
     }
     public function upload(Request $request)
     {

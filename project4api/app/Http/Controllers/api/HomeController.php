@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 // use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\traits\QueryTrait;
 
 use function PHPUnit\Framework\isNull;
 
@@ -21,37 +22,37 @@ class HomeController extends Controller
         return User::find($id);
     }
 
-    public function update(Request $request, $id = null){
-        if($id == null){
+    public function update(Request $request, $id = null)
+    {
+        if ($id == null) {
             return "record not found";
         }
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
         $result = $user->save();
-        if($result){
-            return ["result"=>"record updated successfully"];
-        }
-        else{
-            return ["result"=>"record not updated"];
+        if ($result) {
+            return ["result" => "record updated successfully"];
+        } else {
+            return ["result" => "record not updated"];
         }
     }
 
-    public function search($name=null)
+    public function search($name = null)
     {
-        $user = User::where('name',$name)->get();
-        if(sizeof($user)>0){
+        $user = User::where('name', $name)->get();
+        if (sizeof($user) > 0) {
             return $user;
         }
         return "No Record Found";
     }
 
-    public function delete($id=null)
+    public function delete($id = null)
     {
-        
-        $user = User::where('id',$id)->get();
-        if(sizeof($user)>0){
-            User::where('id',$id)->delete();
+
+        $user = User::where('id', $id)->get();
+        if (sizeof($user) > 0) {
+            User::where('id', $id)->delete();
             return "Record Deleted Successfully";
         }
         return "Record not found";
@@ -61,12 +62,12 @@ class HomeController extends Controller
     public function register(Request $request)
     {
         $data = $request->all();
-        $validateData = Validator::make($data,[
+        $validateData = Validator::make($data, [
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|confirmed'
         ]);
-        if($validateData->fails()){
+        if ($validateData->fails()) {
             return $validateData->errors();
         }
         $data['password'] = bcrypt($request->password);
@@ -74,7 +75,7 @@ class HomeController extends Controller
         $token = $user->createToken('APITOKEN')->accessToken;
 
         return response([
-            'messagea' => 'Data Inserted Successfully',
+            'message' => 'Data Inserted Successfully',
             'user' => $user,
             'token' => $token,
         ]);
@@ -90,8 +91,7 @@ class HomeController extends Controller
         if (!auth()->attempt($data)) {
             return response(['error_message' => 'Incorrect Details']);
         }
-        $id = auth()->user()->getAuthIdentifier();
-        $token = User::find($id)->createToken('APITOKEN')->accessToken;
+        $token = auth()->user()->createToken('APITOKEN')->accessToken;
 
         return response([
             'message' => 'Login Successfully',
@@ -99,6 +99,10 @@ class HomeController extends Controller
             'token' => $token
         ]);
     }
+    use QueryTrait;
 
-   
+    public function traitData()
+    {
+        return $this->getUserDetail(2);
+    }
 }
