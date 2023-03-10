@@ -68,15 +68,13 @@ Route::get('upload',function(){
     return view('upload_image');
 })->name('upload');
 
-Route::post('upload',[HomeController::class,'upload_image'])->name('upload');
-
-Route::get('show',[HomeController::class,'show'])->name('show');
-
-Route::get('delete/{id}',[HomeController::class,'delete'])->name('delete');
-
-
-Route::get('download/{name}',[HomeController::class,'download'])->name('download');
-
+Route::controller(HomeController::class)->group(function () {
+    Route::post('upload','upload_image')->name('upload');
+    Route::get('show','show')->name('show');
+    Route::get('delete/{id}','delete')->name('delete');
+    Route::get('updateForm/{id}','updateForm')->name('updateForm');
+    Route::post('update','update_image')->name('update');
+});
 
 
 

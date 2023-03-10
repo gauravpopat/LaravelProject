@@ -35,7 +35,7 @@
                         <td><img src="{{ asset('/images/' . $image->image) }}" alt="" height="40px"
                                 width="40px"> </td>
                         <td> <a href="{{ route('delete', ['id' => $image->id]) }}">Delete</a> </td>
-                        <td> <a href="{{ route('download', ['name' => $image->image]) }}">Download</a> </td>
+                        <td> <a href="{{ route('updateForm', ['id' => $image->id]) }}">Update</a> </td>
                     </tr>
                 @endforeach
             </tbody>

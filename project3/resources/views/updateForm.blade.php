@@ -13,12 +13,14 @@
 </head>
 
 <body style="margin: 3%;">
-    <form action="{{ route('upload') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('update') }}" method="POST" enctype="multipart/form-data">
         @csrf
+        <h1>Upadte form</h1>
+        <input type="hidden" name="id" value="{{$image->id}}">
         <label for="">Name</label>
-        <input type="text" name="name" placeholder="Enter Your Name" required>
+        <input type="text" name="name" placeholder="Enter Your Name" value="{{$image->name}}" required>
         <br><label for="">Image</label>
-        <input type="file" onchange="preview()" name="image" placeholder="Upload File" required>
+        <input type="file" onchange="preview()" name="image" placeholder="Upload File" value="{{$image->image}}" required>
         <img id="frame" src=""/>
         <br><input type="submit" value="Submit">
         @if (Session::has('success'))

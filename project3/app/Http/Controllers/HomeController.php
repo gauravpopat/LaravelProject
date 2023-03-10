@@ -54,10 +54,28 @@ class HomeController extends Controller
         return back()->with('success','record deleted successfully');
     }
 
-    // public function download($name)
-    // {
-    //     $imagename = Image::where('image',$name)->get('image')->first();
-    //     Storage::download(public_path('/images/').now());
-    //     return back()->with('success','Image Downloaded Successfully');
-    // }
+    public function updateForm($id){
+        $image = Image::where('id',$id)->first();
+        return view('updateForm',compact('image'));
+    }
+
+    public function update_image(Request $request)
+    {
+        // $image = $request->file('image');
+        // $destinationPathImg = public_path('/images/');
+        // $filename = time() . "myfile." . $request->image->extension();
+
+        // if (!$image->move($destinationPathImg, $filename)) {
+        //     return 'Error saving the file.';
+        // }
+
+        // Image::create([
+        //     'name' => $request->name,
+        //     'image' => $filename
+        // ]);
+        return $request->name;
+
+        return redirect('show')->with('success', 'Data Updated successfully');
+    }
+
 }
